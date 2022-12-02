@@ -291,8 +291,8 @@ region = mpl
 
 # Declare start and end period
 cdate = date.today()
-start = "2022-10-01"
-end = "2022-11-15"
+start = "2022-11-01"
+end = "2024-01-01"
 
 s1Collection = ee.ImageCollection("COPERNICUS/S1_GRD").filterDate(start,end)\
 						      .filterBounds(region)\
@@ -326,5 +326,5 @@ for x in s1List1:
 
 # process imagery that has not been processed
 for item in s1List2:
-    print(counter,item)
-    submitJob(item,mpl)
+    print(item)
+    #submitJob(item,mpl)

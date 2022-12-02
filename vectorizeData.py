@@ -66,6 +66,7 @@ for x in ftFiles:
 
 # process imagery that was not processed yet
 for item in gplList1:
+    print(item)
     # get the image
     img = ee.Image("projects/cipalawan/assets/alertsv4/"+item)
     # get the name
