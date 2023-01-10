@@ -187,12 +187,14 @@ def tversky_bce(y_true, y_pred):
 
 def build_efficientNet():
 
-    inputs = Input(shape=(None,None, 6), name="input_image")
-    encoder = EfficientNetV2B0(input_tensor=inputs, weights=None, include_top=False,include_preprocessing =False,classifier_activation=None)
+    inputs = Input(shape=(None,None, 10), name="input_image")
+    #encoder = EfficientNetV2B0(input_tensor=inputs, weights=None, include_top=False,include_preprocessing =False,classifier_activation=None)
+    encoder = EfficientNetV2M(input_tensor=inputs, weights=None ,include_top=False,include_preprocessing =False,classifier_activation=None)
 
     inp = encoder.input
 
     skip_connection_names = ["input_image", "block1a_project_activation","block2b_expand_activation","block4a_expand_activation", "block6a_expand_activation"]
+    skip_connection_names = ["input_image", "block1c_project_activation","block2e_expand_activation","block4a_expand_activation", "block6a_expand_activation"]
     encoder_output = encoder.get_layer("top_activation").output
 
     f = [16,32, 64, 128, 256]
@@ -236,16 +238,16 @@ def get_models(input_optimizer, input_loss_function, evaluation_metrics):
 if __name__ == "__main__":
 
     # Set the path to the raw data
-    raw_data_path = r"/home/ate/sig/alerts/models/data/alertsMKDescV5"
+    raw_data_path = r"/path/to/data"
 
     # Define the path to the log directory for tensorboard
-    log_dir = r'/home/ate/sig/alerts/models/log'
+    log_dir = r'/path/to/log'
 
     # Define the directory where the models will be saved
-    model_dir = r'/home/ate/sig/palawan/efficientModelSAR'
+    model_dir = r'path/to'
 
     # for sentinel 1 data
-    BANDS =  ['VH_after0', 'VH_before0', 'VH_before1', 'VV_after0','VV_before0', 'VV_before1']
+    BANDS =  ['VH_after0','VH_after1','VH_before0', 'VH_before1','VH_before2','VV_after0','VV_after1','VV_before0', 'VV_before1', 'VV_before2']
 
     # for NICFI data
     #BANDS =  ["rb","gb","bb","nb","ra","ga","ba","na"]
@@ -255,7 +257,7 @@ if __name__ == "__main__":
 
     # Specify model training parameters.
     #TRAIN_SIZE = 550000
-    TRAIN_SIZE = 160000
+    TRAIN_SIZE = 320000
     BATCH_SIZE = 32
     EPOCHS = 70
     BUFFER_SIZE = 1024*4
@@ -302,5 +304,5 @@ if __name__ == "__main__":
 
     # Save the model
     model.save(model_dir, save_format='tf')
-    model.save_weights( r'/home/ate/sig/palawan/allWeightsSARv1', save_format='tf')
-    model.save_weights( r'/home/ate/sig/palawan/allWeightsSARv1.h5')
+    model.save_weights( r'path/to/model', save_format='tf')
+    model.save_weights( r'path/to/model')
